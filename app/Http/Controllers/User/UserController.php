@@ -71,8 +71,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+   public function update(Request $request, $id)
+   {
         $user = User::FindOrFail($id);
 
         $this->validate($request, [
@@ -119,7 +119,7 @@ class UserController extends Controller
             'data' => $user
         ], 200);
 
-    } 
+   }
 
     /**
      * Remove the specified resource from storage.
