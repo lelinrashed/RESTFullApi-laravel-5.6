@@ -12,6 +12,10 @@ class Product extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected $hidden = [
+        'pivot'
+    ];
+
 	CONST AVAILABLE_PRODUCT = 'available';
 	CONST UNAVAILABLE_PRODUCT = 'unavailable';
 
