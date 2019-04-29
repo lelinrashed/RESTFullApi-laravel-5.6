@@ -68,41 +68,41 @@ class UserController extends ApiController
      */
    public function update(Request $request, User $user)
    {
-        $this->validate($request, [
-            'email' => 'email|unique:users, email,'. $user->id,
-            'password' => 'min:6|confirmed',
-            'admin' => 'in:'. User::ADMIN_USER. ','. User::REGULAR_USER
-        ]);
+       $this->validate($request, [
+           'email' => 'email|unique:users,email,'.$user->id,
+           'password' => 'min:6|confirm',
+           'admin' => 'in:'.User::ADMIN_USER.','.User::REGULAR_USER
+       ]);
 
-        if ($request->has('name')) {
+       if ($request->has('name')) {
             $user->name = $request->name;
-        }
+       }
 
-        if ($request->has('email') && $user->email != $request->email) {
-            $user->verified = User::UNVERIFIED_USER;
-            $user->verifiecation_token = User::generateVerificationCode();
-            $user->email = $request->email;
-        }
+       if ($request->has('email') && $user->email != $request->email) {
+           $user->verified = User::UNVERIFIED_USER;
+           $user->verification_token = User::generateVerificationCode();
+           $user->email = $request->email;
+       }
 
-        if ($request->has('password')) {
+       if ($request->has('password')) {
             $this->password = bcrypt($request->password);
-        }
+       }
 
-        if ($request->has('admin')) {
+       if ($request->has('admin')) {
             if (!$user->isVerified()) {
                 return $this->errorResponse('Only verified users can modify the admin field', 409);
             }
 
             $user->admin = $request->admin;
-        }
+       }
 
-        if (!$user->isDirty()) {
+       if (!$user->isDirty()) {
             return $this->errorResponse('You need to specify a different value to update', 422);
-        }
+       }
 
-        $user->save();
+       $user->save();
 
-        return $this->showOne($user);
+       return $this->showOne($user);
 
    }
 
